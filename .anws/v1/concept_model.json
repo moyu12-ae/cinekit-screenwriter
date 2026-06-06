@@ -1,0 +1,240 @@
+{
+  "glossary": {
+    "导演 (Director)": "管道入口角色，无论用户输入什么（命题/生活观察/混合），都用冲突定位方法论从中提取核心冲突张力，产出故事主题和创意方向",
+    "编剧 (Screenwriter)": "基于导演的创意方向，运用麦基三部曲+菲尔德+宋方金方法论，产出人物设定、场景设定、核心概念设定、道具设定、人物关系、冲突结构、情节设计、对白设计等可落地的故事资产",
+    "演员 (Actor)": "小说模式专属角色，按编剧定稿的对白和场景"演一遍"，利用 R1 式角色扮演记录每个角色在每场戏中的"感受"和"心想"（内心独白），供写手使用",
+    "写手 (Writer)": "小说模式专属角色，基于演员记录的内心独白，运用叙事学概念（视点/焦距/焦点）和文学批评方法，将剧本转化为文学性小说文本",
+    "冲突定位 (Conflict Positioning)": "导演的核心方法论：从用户输入中提取核心冲突张力（人物 vs 人物/环境/自我/社会/命运），确定冲突层面和对抗力量，提炼故事主题",
+    "横向营销变形 (Lateral Marketing Deformation)": "导演的创意生成工具：运用替代/反转/组合/夸张/去除/换序六种工具，对生活观察进行足够变形，使之脱离现实成为故事创意",
+    "资产化 (Assetization)": "核心设计哲学：通过结构化的前期设计产出（主题、人物设定、道具设定、场景设定等独立资产文件），用规范性的前期边界对冲中期执行的不确定性",
+    "剧本模式 (Script Mode)": "默认模式：导演→编剧→剧本输出，产出标准剧本格式（场景+对白+舞台指示）",
+    "小说模式 (Novel Mode)": "扩展模式：导演→编剧→演员→写手→小说输出，在剧本基础上加入角色内心记录和叙事学加工",
+    "情节驱动 (Plot-Driven)": "故事类型之一：情节结构先行，人物服务于情节弧光",
+    "人物驱动 (Character-Driven)": "故事类型之一：人物内在变化驱动情节，情节服务于人物弧光",
+    "工作区 (Workspace)": "统一文件夹 `workspace/`，每项目独立子目录包含 design/assets/drafts/，Git 版本管理"
+  },
+  "entities": [
+    {
+      "name": "StoryProject",
+      "type": "聚合根",
+      "necessity": "必须",
+      "description": "一个故事创作项目，包含模式切换（剧本/小说）、驱动类型（情节/人物）、所有资产和版本历史"
+    },
+    {
+      "name": "CreativeInput",
+      "type": "值对象",
+      "necessity": "必须",
+      "description": "用户输入：可以是明确命题、生活观察片段、或两者混合的文本"
+    },
+    {
+      "name": "StoryTheme",
+      "type": "实体",
+      "necessity": "必须",
+      "description": "导演通过冲突定位提取的故事主题，包含核心冲突层面、对抗力量、正面价值"
+    },
+    {
+      "name": "CoreConcept",
+      "type": "实体",
+      "necessity": "必须",
+      "description": "故事核心概念设定：世界观、前提假设、故事脊椎"
+    },
+    {
+      "name": "CharacterProfile",
+      "type": "实体",
+      "necessity": "必须",
+      "description": "人物设定卡：四个自我、定义性维度、弧光类型、内在动机、人物关系"
+    },
+    {
+      "name": "PropSetting",
+      "type": "实体",
+      "necessity": "可选",
+      "description": "道具设定卡：关键道具、象征物、功能性道具，与场景/人物的关联"
+    },
+    {
+      "name": "SceneSetting",
+      "type": "实体",
+      "necessity": "必须",
+      "description": "场景设定卡：每场戏的地点、时间、参与人物、开篇价值和结尾价值、节拍序列"
+    },
+    {
+      "name": "SceneScript",
+      "type": "实体",
+      "necessity": "必须",
+      "description": "编剧产出的完整场景脚本：对白+舞台指示+节拍标记"
+    },
+    {
+      "name": "ActorRecord",
+      "type": "实体",
+      "necessity": "小说模式",
+      "description": "演员扮演后的内部独白记录：每角色/每场戏的"感受"和"心想"，包含动作意图与潜台词"
+    },
+    {
+      "name": "NovelDraft",
+      "type": "实体",
+      "necessity": "小说模式",
+      "description": "写手基于演员记录+叙事学方法加工的小说文本"
+    },
+    {
+      "name": "ScriptDraft",
+      "type": "实体",
+      "necessity": "剧本模式",
+      "description": "剧本模式的最终输出：标准化剧本格式"
+    },
+    {
+      "name": "DecisionGate",
+      "type": "值对象",
+      "necessity": "必须",
+      "description": "情节驱动/人物驱动的分岔决策点，决定编剧后续构思路径"
+    },
+    {
+      "name": "Workspace",
+      "type": "聚合根",
+      "necessity": "必须",
+      "description": "workspace/{project-name}/ 包含 design/ assets/ drafts/ 子目录，Git 版本管理"
+    }
+  ],
+  "flows": [
+    {
+      "from": "User",
+      "action": "输入生活观察或命题",
+      "to": "Director",
+      "data": "CreativeInput",
+      "trigger": "用户启动故事创作"
+    },
+    {
+      "from": "Director",
+      "action": "冲突定位 + 横向营销变形",
+      "to": "StoryTheme + CoreConcept",
+      "data": "提取的核心冲突、对抗力量层、变形后的故事前提",
+      "mode": "冲突定位提取核心张力 → 横向营销六工具变形 → 产出主题和核心概念"
+    },
+    {
+      "from": "Director",
+      "action": "产出前期设定资产",
+      "to": "CharacterProfile[] + PropSetting[] + SceneSetting[]",
+      "data": "人物卡、道具卡、场景卡",
+      "mode": "指导前期设定，编剧在此基础上落地细化"
+    },
+    {
+      "from": "Director",
+      "action": "判断驱动类型",
+      "to": "DecisionGate",
+      "data": "情节驱动 or 人物驱动",
+      "trigger": "主题和核心概念确定后"
+    },
+    {
+      "from": "Screenwriter",
+      "action": "落地设计（基于麦基+菲尔德+宋方金方法）",
+      "to": "CharacterProfile(细化) + SceneScript[] + Dialogue[]",
+      "data": "完整的故事资产：人物关系、冲突结构、情节设计、对白",
+      "mode": "情节驱动：先构建情节弧光和节拍，再推人物弧光；人物驱动：先设计人物维度和弧光，再推情节"
+    },
+    {
+      "from": "Screenwriter",
+      "action": "输出剧本",
+      "to": "ScriptDraft",
+      "data": "标准化剧本格式（场景+对白+舞台指示）",
+      "condition": "剧本模式：流程在此结束"
+    },
+    {
+      "from": "Screenwriter",
+      "action": "传递定稿对白和场景",
+      "to": "Actor[]",
+      "data": "SceneScript[] + CharacterProfile[]",
+      "condition": "小说模式：继续演员环节"
+    },
+    {
+      "from": "Actor[]",
+      "action": "R1 角色扮演，记录内心独白",
+      "to": "ActorRecord[]",
+      "data": "每角色/每场戏的'感受'+'心想'+动作意图+潜台词",
+      "mode": "Agent Teams：每个角色一个 Agent，按场景对白扮演，记录内部状态"
+    },
+    {
+      "from": "Writer",
+      "action": "叙事学加工（视点/焦距/焦点）+ 文学批评方法指导",
+      "to": "NovelDraft",
+      "data": "基于 ActorRecord[] + 叙事学方法论 + 文学批评实操 → 小说文本",
+      "mode": "确定叙事视点 → 选取焦距 → 运用文学批评中的写作技巧 → 产出小说"
+    },
+    {
+      "from": "Git",
+      "action": "版本管理",
+      "to": "Workspace",
+      "data": "所有 project/ 子目录",
+      "trigger": "每个阶段产出保存后自动 commit（Hook 触发）"
+    }
+  ],
+  "missing_components": [
+    {
+      "component": "Actor Agent Teams 编排机制",
+      "category": "架构设计",
+      "priority": "高",
+      "reason": "多个角色 Agent 同时扮演同一场戏时，如何编排对话顺序？需要回合制还是并行？Action 记录格式是什么？"
+    },
+    {
+      "component": "冲突定位的具体算法/流程",
+      "category": "方法论",
+      "priority": "高",
+      "reason": "叶茂中方法论中没有'冲突定位'这一确切概念，需要从冲突理论（麦基+菲尔德）中抽象出一套可执行的冲突提取流程"
+    },
+    {
+      "component": "横向营销变形器",
+      "category": "创意引擎",
+      "priority": "高",
+      "reason": "六种变形工具如何映射到故事创意场景？'替代'在故事中是什么意思？需要设计变形规则和提示词模板"
+    },
+    {
+      "component": "情节驱动/人物驱动的自动判断逻辑",
+      "category": "路由逻辑",
+      "priority": "高",
+      "reason": "如何在设计早期自动判断应该走情节驱动还是人物驱动？判断标准是什么？"
+    },
+    {
+      "component": "模式切换的触发机制",
+      "category": "用户体验",
+      "priority": "中",
+      "reason": "剧本/小说模式的切换点是：a) 项目创建时确定模式？b) 编剧完成后询问是否进入小说模式？c) 随时可开关？"
+    },
+    {
+      "component": "叙事学视点选择策略",
+      "category": "写作指导",
+      "priority": "中",
+      "reason": "写手在什么阶段决定叙事视点？是从人物设定中自动推荐，还是写手自主判断？"
+    },
+    {
+      "component": "文学批评写作方法的提取与适配",
+      "category": "方法论",
+      "priority": "中",
+      "reason": "汤拥华《文学批评入门》中哪些方法可以直接转化为AI可执行的写作指导提示词？"
+    },
+    {
+      "component": "Git Hook 自动化规范",
+      "category": "基础设施",
+      "priority": "中",
+      "reason": "什么事件触发 commit？commit message 格式？是否需要分支策略（design/draft/review）？"
+    }
+  ],
+  "clarifications": [
+    {
+      "question": "导演和编剧的职责边界？",
+      "answer": "导演做创意方向决策（冲突定位提取主题+横向营销变形+前期设定），编剧用麦基/菲尔德/宋方金方法论将方向落地为可执行的故事资产（人物关系、冲突结构、情节、对白）"
+    },
+    {
+      "question": "演员角色中 AI 扮演的定位？",
+      "answer": "按编剧定稿的剧本对白'演一遍'，被动执行，记录每个角色在每场戏中的'感受'和'心想'"
+    },
+    {
+      "question": "剧本模式 vs 小说模式的核心差异？",
+      "answer": "剧本模式：导演→编剧→剧本输出；小说模式：导演→编剧→演员→写手→小说输出。演员和写手为小说模式专属"
+    },
+    {
+      "question": "工作区的结构？",
+      "answer": "workspace/{project-name}/ 每项目独立子文件夹，内含 design/assets/drafts/ 子目录"
+    },
+    {
+      "question": "导演的生活观察输入形式？",
+      "answer": "鲁棒性设计，不区分输入格式。导演核心能力是无论用户输入什么，都通过冲突定位方法提取核心冲突张力并变形为有价值的故事主题和创意方向"
+    }
+  ]
+}
