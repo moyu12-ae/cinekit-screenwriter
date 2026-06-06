@@ -105,11 +105,12 @@ function main() {
     }
 
     // 用户产出文档已存在时跳过（保护用户数据）
-    if (isReinit && file !== 'PROGRESS.md' && file !== '00_MANIFEST.md' && file !== 'CHANGELOG.md') {
-      if (fileExists(dest)) {
-        skipped.push(file);
-        continue;
-      }
+    // 注意：PROGRESS.md 也受保护，避免覆盖用户的项目名称和创作内容
+    const isProtectedUserFile = isReinit && fileExists(dest);
+    const isManagedFile = file === '00_MANIFEST.md' || file === 'CHANGELOG.md';
+    if (isProtectedUserFile && !isManagedFile) {
+      skipped.push(file);
+      continue;
     }
 
     copyFile(src, dest, replacements);
