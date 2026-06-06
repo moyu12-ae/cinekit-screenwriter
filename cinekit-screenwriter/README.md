@@ -1,5 +1,7 @@
 # CineKit 编剧大师
 
+> 本 Skill 基于 @山音 的「山音超级编剧大师」二次开发，新增 CineKit 持久化工作流与项目初始化系统。核心编剧方法论保留原版内容，沿用与原版一致的 MIT 许可证。
+
 全格式影视编剧 Skill — 覆盖 1 分钟概念片到 90 分钟长片到多集剧集，内置 CineKit 持久化工作流，跨会话不丢失创作进度。
 
 ## CineKit 持久化系统
@@ -77,4 +79,4 @@ MIT License。详见 [LICENSE](LICENSE)。
 
 ---
 
-*本 Skill 的编剧方法论核心内容（core-methodology.md、format-*.md）基于 @山音 的「山音超级编剧大师」创作。*
+*本 Skill 基于 @山音 的「山音超级编剧大师」二次开发，新增 CineKit 持久化工作流与项目初始化系统（scripts/、templates/）。核心编剧方法论（core-methodology.md、format-*.md）保留原版内容。沿用与原版一致的 MIT 许可证。*
